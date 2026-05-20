@@ -234,6 +234,10 @@ for SKILL_ROOT in "${SKILL_DIRS[@]}"; do
         DIRTY=\$((DIRTY + 1))
         continue
       fi
+      if ! git -C \"\$skill_dir\" remote | grep -q .; then
+        echo \"  \$name: local-only (no remote) — skipping\"
+        continue
+      fi
       echo \"  pulling \$name...\"
       if ! git -C \"\$skill_dir\" pull --ff-only 2>&1 | sed 's/^/    /'; then
         echo '    (pull failed)'
@@ -247,7 +251,8 @@ for SKILL_ROOT in "${SKILL_DIRS[@]}"; do
 done
 
 # 5. Extra user-configured git repos (optional, from EXTRA_GIT_REPOS)
-for REPO in "${EXTRA_GIT_REPOS[@]}"; do
+for REPO in "${EXTRA_GIT_REPOS[@]:-}"; do
+  [ -n "$REPO" ] || continue
   REPO="${REPO/#\~/$HOME}"
   REPO_NAME=$(basename "$REPO")
   section "$REPO_NAME" "
