@@ -2,6 +2,14 @@
 #
 # This is sourced by update-all.sh as bash. All settings are optional.
 
+# --- Daily schedule (launchd) ---
+# Time-of-day for the daily auto-run. After changing, regenerate the plist:
+#   ~/.claude/scripts/update-all.sh --install-launchd
+# Defaults: 07:30 local time.
+# LAUNCHD_HOUR=7
+# LAUNCHD_MINUTE=30
+# LAUNCHD_LABEL=com.claude.update-all   # only change if you know why
+
 # Extra git repos to pull on each run. Tilde-expansion supported.
 # If the repo has a pyproject.toml and `uv` is installed, `uv sync` will run after pull.
 # Local edits are auto-stashed and re-applied around the pull.

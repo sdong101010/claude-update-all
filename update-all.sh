@@ -100,7 +100,7 @@ EOF
   launchctl bootout "$DOMAIN/${LAUNCHD_LABEL}" 2>/dev/null || true
   launchctl bootstrap "$DOMAIN" "$PLIST"
   echo "✓ launchd job installed at $PLIST"
-  echo "  Runs daily at ${LAUNCHD_HOUR}:$(printf '%02d' $LAUNCHD_MINUTE)."
+  echo "  Runs daily at $(printf '%02d:%02d' "$LAUNCHD_HOUR" "$LAUNCHD_MINUTE")."
   echo "  Disable:  launchctl bootout $DOMAIN/${LAUNCHD_LABEL}"
   echo "  Test now: launchctl start ${LAUNCHD_LABEL}"
   exit 0

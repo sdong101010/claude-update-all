@@ -1,8 +1,23 @@
 # claude-update-all
 
-A daily mass-update script for the [Claude Code](https://claude.com/claude-code) ecosystem and the dev tools that ride along with it. Updates the Claude Code CLI, all installed plugins, your git-managed skills, Homebrew, the Salesforce CLI, `uv`, and any extra repos you care about — all in one go, with a daily launchd job.
+A daily mass-update script for the [Claude Code](https://claude.com/claude-code) ecosystem and the dev tools that ride along with it. Updates the Claude Code CLI, all installed plugins, your git-managed skills, Homebrew, the Salesforce CLI, `uv`, and any extra repos you care about — all in one go, on a daily launchd schedule.
 
 Ships with an `update-all-tools` skill so Claude Code knows when to run it for you (e.g. when you ask "is everything up to date?").
+
+## Quick start
+
+```bash
+git clone https://github.com/sdong101010/claude-update-all.git ~/projects/claude-update-all
+cd ~/projects/claude-update-all && ./install.sh
+```
+
+That's it. After install you have:
+
+- A daily launchd job at **07:30 local time** that updates everything
+- The `update-all-tools` skill installed at `~/.claude/skills/` (Claude auto-discovers it)
+- A wrapper at `~/.claude/scripts/update-all.sh` for manual runs
+
+To skip scheduling and just install the script: `./install.sh --no-schedule`.
 
 ## What it updates
 
@@ -22,19 +37,13 @@ Plus reporting-only sections:
 
 Each section runs independently — a failure in one doesn't stop the rest. Exit code is 0 if everything succeeded, 1 otherwise.
 
-## Install
+## Change the schedule
 
+Add to `~/.claude/update-all.config` and re-run the launchd installer:
 ```bash
-git clone https://github.com/<you>/claude-update-all.git ~/projects/claude-update-all
-cd ~/projects/claude-update-all
-./install.sh --launchd      # symlinks + installs the daily 07:30 launchd job
-```
-
-`install.sh` (without `--launchd`) just symlinks the script and skill into `~/.claude/scripts/` and `~/.claude/skills/update-all-tools/` without touching launchd.
-
-To run on demand without the daily job:
-```bash
-~/.claude/scripts/update-all.sh
+echo "LAUNCHD_HOUR=9"   >> ~/.claude/update-all.config
+echo "LAUNCHD_MINUTE=0" >> ~/.claude/update-all.config
+~/.claude/scripts/update-all.sh --install-launchd   # regenerate the plist
 ```
 
 ## Configure
