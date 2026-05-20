@@ -1,0 +1,25 @@
+# update-all.config — copy to ~/.claude/update-all.config and edit.
+#
+# This is sourced by update-all.sh as bash. All settings are optional.
+
+# Extra git repos to pull on each run. Tilde-expansion supported.
+# If the repo has a pyproject.toml and `uv` is installed, `uv sync` will run after pull.
+# Local edits are auto-stashed and re-applied around the pull.
+EXTRA_GIT_REPOS=(
+  # ~/Developer/my-tool
+  # ~/Developer/another-thing
+)
+
+# Skill directories to scan for git-managed skills (each subdir with a .git is pulled).
+# Defaults to (~/.claude/skills) if not set. Override to add others (e.g. Cursor):
+SKILL_DIRS=(
+  ~/.claude/skills
+  # ~/.cursor/skills
+)
+
+# Toggle individual sections (1 = enabled, 0 = disabled)
+ENABLE_HOMEBREW=1       # brew update + upgrade + cleanup
+ENABLE_SF_CLI=1         # Salesforce CLI (`sf update`)
+ENABLE_UV=1             # uv self update
+ENABLE_NPM_REPORT=1     # report outdated npm globals (no auto-upgrade)
+ENABLE_DISK_CHECK=1     # warn if < 10 GB free on $HOME partition
